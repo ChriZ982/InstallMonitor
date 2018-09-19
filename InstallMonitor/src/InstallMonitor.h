@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <vector>
 
 std::vector<std::string> list_directories(std::string path);
 void scan_filesystem();
