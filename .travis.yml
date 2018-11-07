@@ -1,0 +1,21 @@
+language: cpp
+
+matrix:
+  include:
+    - os: windows
+      script: ./build.bat
+    - os: linux
+      dist: xenial
+      script: ./build.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: sUoNd51QSXwdHwstj2oiFH4R4FpPBXdBDRxFFX2DuqD9Aia9WIUVoM11BCUK/GvogK7qrU24djulb+NA5YlXvrodkH5Rdy133fCHs+SFTVmaasfAhHRW+ySOe5tF2MpQxzR/uEaZ9c5UBvZOaNmzShtkwO7WYplF3dV4OrpXBvVrlZoXMxAeIhPl4gQNBAg6Wpo9ywHYkiMPTuaQnWkoZTHlcQJwNBIfauLkxVtpzLGkyLZJVmQ1kPexGCBLX8Ftp0ZVqfg8/YHWrVkVQxBTDyLnHaXjnH8j1QcRrLSo26bxoMt1xtyq5b6L+6LpH5qQM2w2ZSHb502/v3nV+bYqY3YoMQwSTCQxWWP6JVu/c7+NoxZGH3rE2LeiyRAYekTQ/Teli8bEwxk+Qbqae1Ht/jL3Z/ggXMMM557C94AHHm9fUh6t/asUJG1WyGiE2iPrb0Li/UiuFsCnksqxYqoHldmRzOrrfNNde5b/ZEdtFxNs5a9p6ciPCZnOqsfnu1sAbb/kGkNHqK9R6oCh/A8LqfDC975ZOVcQR75v72b0u3xE+3b9VglonPmHTpifYREO3SGIHkVGKpTbrufcdcIOs/ghuyF+0AL3Ks+ivmAQtBh5IffZQ/ETaDt6EI8SEZBwfhS/PSyUxyF8J+UYNDgaEgpx0F5BfMGY0/SPTa7WF0s=
+  file_glob: true
+  file:
+    - build/InstallMonitor-$TRAVIS_TAG-*-*
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true

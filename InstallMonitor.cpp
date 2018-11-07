@@ -1,4 +1,14 @@
 #include "InstallMonitor.h"
+	
+#include <iostream>
+#include <iterator>
+#include <fstream>
+#include <experimental/filesystem>
+#include <time.h>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+#include <algorithm>
 
 int main()
 {
@@ -26,20 +36,22 @@ int main()
 }
 
 void scan_filesystem() {
+	std::string root_folder;
+	std::cout << "Please enter the root folder:\n";
+	std::cin >> root_folder;
+
 	std::cout << "\nScanning filesystem...\n";
-	time_t raw_time;
-	struct tm time_info;
-	char buffer[80];
+    std::time_t time = std::time(nullptr);
+	std::stringstream time_str;
+	time_str << std::put_time(std::localtime(&time), "%Y-%m-%d_%H-%M-%S");
 
-	time(&raw_time);
-	localtime_s(&time_info, &raw_time);
+	if(!std::experimental::filesystem::exists("./records")) {
+		std::experimental::filesystem::create_directory("./records");
+	}
 
-	strftime(buffer, sizeof(buffer), "%Y-%m-%d_%H-%M-%S", &time_info);
-	const std::string str(buffer);
+	std::vector<std::string> fs = list_directories(root_folder);
 
-	std::vector<std::string> fs = list_directories("C:\\");
-
-	std::ofstream output_file("./records/files_" + str + ".txt");
+	std::ofstream output_file("./records/files_" + time_str.str() + ".txt");
 	const std::ostream_iterator<std::string> output_iterator(output_file, "\n");
 	std::copy(fs.begin(), fs.end(), output_iterator);
 }
@@ -134,11 +146,14 @@ std::vector<std::string> list_directories(std::string path) {
 
 		directories.push_back(sub_path);
 
-		if (is_directory(p)) {
+		if (std::experimental::filesystem::is_directory(p) && !std::experimental::filesystem::is_symlink(p)) {
 			try {
 				std::vector<std::string> sub_directories = list_directories(sub_path);
 				directories.insert(directories.end(), sub_directories.begin(), sub_directories.end());
 			} catch(std::invalid_argument ex)
+			{
+				std::cerr << "ERROR at "<< sub_path << std::endl;
+			} catch(std::experimental::filesystem::filesystem_error ex)
 			{
 				std::cerr << "ERROR at "<< sub_path << std::endl;
 			}

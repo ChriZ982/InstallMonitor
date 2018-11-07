@@ -1,11 +1,9 @@
 #pragma once
 
+#define _CRT_SECURE_NO_DEPRECATE
+
 #include <string>
-#include <iostream>
-#include <iterator>
-#include <fstream>
-#include <filesystem>
-#include <time.h>
+#include <vector>
 
 std::vector<std::string> list_directories(std::string path);
 void scan_filesystem();
