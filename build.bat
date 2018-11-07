@@ -7,5 +7,3 @@ set linkerflags=/OUT:"%out_dir%/InstallMonitor-%TRAVIS_TAG%-win32-x64.exe" /PDB:
 
 mkdir %out_dir%
 cl.exe %compilerflags% InstallMonitor.cpp /link %linkerflags%
-
-dir

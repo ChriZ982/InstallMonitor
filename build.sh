@@ -4,5 +4,3 @@ linkerflags="-lstdc++fs"
 
 mkdir $out_dir
 clang++ $compilerflags InstallMonitor.cpp -o $out_dir/InstallMonitor-$TRAVIS_TAG-linux-x64 $linkerflags
-
-ls
