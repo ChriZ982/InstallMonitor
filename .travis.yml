@@ -1,20 +1,19 @@
 language: cpp
-
 matrix:
   include:
-    - os: windows
-      script: ./build.bat
-    - os: linux
-      dist: xenial
-      script: ./build.sh
-
+  - os: windows
+    script: ./build.bat
+  - os: linux
+    dist: xenial
+    script: 
+    - sudo apt-get install -qq g++-multilib
+    - ./build.sh
 deploy:
   provider: releases
   api_key:
     secure: xrg8RSszsgJzrWbgA9r1x78FoOsoO7rRopN9tjHz8/SlNv3VQmhexmsP9VLo9iB+jfoPAguE7JbrMVTzcTh9OVk9bt3H8ZYC2uaxc1kGQIahVBtR3BntFmV8nfyAOHYHWHxDozKbGUbuV0dXY2rcga70iEzWeiW65BzgAk6BXDrWF3k21IM9rS2IZuMjgjrsvBgicCgt2RM3jwY+bzMesDmfAgsg37bYtZZ4KpmZ2yxv/lqAgJTKjkbGxL6/O08Lxo42bqfXQ3UYqQozRr7YPZVzEoiTgV6Op6CGyORAqHRcbSydfLPtxMiBwchOPV6sQbxeQ976AOTZu9ducpDBrPi6ztcql3G8XzqrAxVznLakdjIk4AIevrEzprqQlGzMwpLtSVIPhIgtGEBe41V7VOG0stjt4RURPp37/f97QVLySGdW/i38W/jXdIIN6FpwWpmob/HSGxAwPtmLjzYYvI7YQIf2XsHD82AYETS17xp0wN76YTQ306foue4baqJNiCNQq0ljcGoaKtbxjBtMJZAyxWDKaMbKB7osYh49HA64fw74qdzojepHchpC3iKi4HCemPPmVCOI7CRTqMT/+EqA6JiVcjxstJj2ASCW9YoDxvjA0MsBAHHLqsODfkoGe0gZABAcKiJHqauG7Jx0Snqj4sJRK2bxHhVJTMKJDrE=
   file_glob: true
-  file:
-    - build/InstallMonitor-$TRAVIS_TAG-*-*
+  file: build/release/InstallMonitor-*-*-*
   skip_cleanup: true
   overwrite: true
   on:
